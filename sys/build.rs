@@ -8,6 +8,8 @@ use std::path::PathBuf;
 
 fn main() {
     let target = env::var("TARGET").unwrap();
+    let target_os = std::env::var("CARGO_CFG_TARGET_OS").unwrap();
+
     // Link C++ standard library
     if let Some(cpp_stdlib) = get_cpp_link_stdlib(&target) {
         println!("cargo:rustc-link-lib=dylib={}", cpp_stdlib);
@@ -113,6 +115,12 @@ fn main() {
     cmd.arg("-DWHISPER_CLBLAST=ON");
 
     cmd.arg("-DCMAKE_POSITION_INDEPENDENT_CODE=ON");
+
+    if target_os == "android" {
+        cmd.arg(format!("-DCMAKE_TOOLCHAIN_FILE={}/25.1.8937393/build/cmake/android.toolchain.cmake", env::var("ANDROID_NDK_HOME").unwrap()));
+        cmd.arg(format!("-DANDROID_ABI={}", env::var("CARGO_NDK_ANDROID_TARGET").unwrap()));
+        cmd.arg(format!("-DANDROID_PLATFORM={}", env::var("CARGO_NDK_ANDROID_PLATFORM").unwrap()));
+    }
 
     let code = cmd
         .status()
