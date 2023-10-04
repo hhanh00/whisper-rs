@@ -17,6 +17,7 @@ fn main() {
     // Link macOS Accelerate framework for matrix calculations
     if target.contains("apple") {
         println!("cargo:rustc-link-lib=framework=Accelerate");
+        println!("cargo:rustc-link-lib=framework=Metal");
         #[cfg(feature = "coreml")]
         {
             println!("cargo:rustc-link-lib=framework=Foundation");

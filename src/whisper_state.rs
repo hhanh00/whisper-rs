@@ -413,6 +413,13 @@ impl<'a> WhisperState<'a> {
         Ok(r_str.to_string())
     }
 
+    pub fn full_get_segment_speaker_turn_next(&self, segment: c_int) -> Result<bool, WhisperError> {
+        let ret =
+            unsafe { whisper_rs_sys::whisper_full_get_segment_speaker_turn_next_from_state(self.ptr, segment) };
+        Ok(ret)
+    }
+    
+
     /// Get the bytes of the specified segment.
     ///
     /// # Arguments

@@ -153,6 +153,14 @@ impl<'a, 'b> FullParams<'a, 'b> {
 
     /// # EXPERIMENTAL
     ///
+    /// Set diarize
+    ///
+    pub fn set_diarize(&mut self, diarize: bool) {
+        self.fp.tdrz_enable = diarize;
+    }
+
+    /// # EXPERIMENTAL
+    ///
     /// Set timestamp token probability threshold.
     ///
     /// Defaults to 0.01.
